@@ -1,0 +1,30 @@
+
+-- Insert Tony Stark into client table
+INSERT INTO clients (clientFirstname, clientLastname, clientEmail, clientPassword, comments)
+VALUES ("Tony", "Stark", "tony@starkent.com", "Iam1ronM@n", "I am the real Ironman");
+
+-- Change client level for Tony Stark to 3
+UPDATE clients
+SET clientLevel = 3
+WHERE clientFirstname = "Tony"
+AND clientLastname = "Stark";
+
+-- Replace Nylon Rope with Climbing Rope
+
+UPDATE inventory
+SET invName = REPLACE(REPLACE(invName, "nylon", "climbing"), "Nylon", "Climbing")
+WHERE invName LIKE 'Nylon%' OR invName LIKE '%nylon%' ;
+
+UPDATE inventory
+SET invDescription = REPLACE(REPLACE(invDescription, "nylon", "climbing"), "Nylon", "Climbing")
+WHERE invDescription LIKE 'Nylon%' OR invDescription LIKE '%nylon%' ;
+
+-- Inventory name and Category name inner join
+SELECT inventory.invName, categories.categoryName
+FROM inventory
+INNER JOIN categories
+ON inventory.categoryid = categories.categoryid AND categories.categoryName = 'Misc';
+
+-- Delete Koenigsegg CXX Car
+DELETE FROM inventory
+WHERE invName ="Koenigsegg CCX Car";
