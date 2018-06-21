@@ -142,6 +142,13 @@ switch ($action){
 		exit;
 	break;
 
+	case 'updateProd':
+
+
+
+
+
+	break;
 	default:
 
 		$products = getProductBasics();

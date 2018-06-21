@@ -9,7 +9,11 @@ foreach ($categories as $category) {
 				$catList .= ' selected ';
 			}
 		}
-
+		elseif(isset($prodInfo['categoryId'])){
+			if($category['categoryId'] === $prodInfo['categoryId']){
+				$catList .= ' selected ';
+			}
+		}
 		$catList .=">".$category['categoryName']."</option>";
     }
 
@@ -50,7 +54,8 @@ $catList .= '</select>';
 						<label for="invName">Product Name</label>
 					</div>
 					<div class="col-75">
-                        <input type="text" id="invName" name="invName" required <?php if(isset($invName)) {echo "value='$invName'";} elseif(isset($prodInfo['invName'])) {echo "value='$prodInfo[invName]'"; } ?> >
+                        <input type="text" id="invName" name="invName" required <?php if(isset($invName)) {echo "value='$invName'";} 
+							elseif(isset($prodInfo['invName'])) {echo "value='$prodInfo[invName]'"; } ?> >
 					</div>
 				 </div>
 				 <div class="row">
@@ -58,7 +63,8 @@ $catList .= '</select>';
 						<label for="invDescription">Product Description</label>
 					</div>
 					<div class="col-75">
-                        <input type="text" id="invDescription" name="invDescription" required <?php if(isset($invDescription)) {echo "value='$invDescription'";} elseif(isset($prodInfo['invDescription'])) {echo "value='$prodInfo[invDescription]'"; } ?> />
+                        <input type="text" id="invDescription" name="invDescription" required <?php if(isset($invDescription)) {echo "value='$invDescription'";} 
+							elseif(isset($prodInfo['invDescription'])) {echo "value='$prodInfo[invDescription]'"; } ?> >
 					</div>
 				 </div>
 				 <div class="row">
@@ -66,7 +72,8 @@ $catList .= '</select>';
 						<label for="invImage">Product Image (path to image)</label>
 					</div>
 					<div class="col-75">
-                        <input type="text" id="invImage" name="invImage" value="/acme/images/products/no-image.png" required <?php if(isset($invImage)) {echo "value='$invImage'";} ?> />
+                        <input type="text" id="invImage" name="invImage" value="/acme/images/products/no-image.png" required <?php if(isset($invImage)) {echo "value='$invImage'";} 
+							elseif(isset($prodInfo['invImage'])) {echo "value='$prodInfo[invImage]'"; } ?> >
 					</div>
 				 </div>
 				 <div class="row">
@@ -74,7 +81,8 @@ $catList .= '</select>';
 						<label for="invThumbnail">Product Thumbnail (path to thumbnail)</label>
 					</div>
 					<div class="col-75">
-                        <input type="text" id="invThumbnail" name="invThumbnail" value="/acme/images/products/no-image.png" required <?php if(isset($invThumbnail)) {echo "value='$invThumbnail'";} ?> />
+                        <input type="text" id="invThumbnail" name="invThumbnail" value="/acme/images/products/no-image.png" required <?php if(isset($invThumbnail)) {echo "value='$invThumbnail'";}
+							elseif(isset($prodInfo['invThumbnail'])) {echo "value='$prodInfo[invThumbnail]'"; } ?> >
 					</div>
 				 </div>
 				 <div class="row">
@@ -82,7 +90,8 @@ $catList .= '</select>';
 						<label for="invPrice">Product Price</label>
 					</div>
 					<div class="col-75">
-                        <input type="number" step="0.01" min=0 id="invPrice" name="invPrice" required <?php if(isset($invPrice)) {echo "value='$invPrice'";} ?> >
+                        <input type="number" step="0.01" min=0 id="invPrice" name="invPrice" required <?php if(isset($invPrice)) {echo "value='$invPrice'";}
+							elseif(isset($prodInfo['invPrice'])) {echo "value='$prodInfo[invPrice]'"; } ?> >
 					</div>
 				 </div>
 				 <div class="row">
@@ -90,7 +99,8 @@ $catList .= '</select>';
 						<label for="invStock">Amount in Stock</label>
 					</div>
 					<div class="col-75">
-                        <input type="number" step=1 min=0 id="invStock" name="invStock" required <?php if(isset($invStock)) {echo "value='$invStock'";} ?> />
+                        <input type="number" step=1 min=0 id="invStock" name="invStock" required <?php if(isset($invStock)) {echo "value='$invStock'";}
+							elseif(isset($prodInfo['invStock'])) {echo "value='$prodInfo[invStock]'"; } ?> >
 					</div>
 				 </div>
 				 <div class="row">
@@ -98,7 +108,8 @@ $catList .= '</select>';
 						<label for="invSize">Shipping Size (W x H x L in cubic inches)</label>
 					</div>
 					<div class="col-75">
-                        <input type="number" step=1 min=0 id="invSize" name="invSize" required <?php if(isset($invSize)) {echo "value='$invSize'";} ?> />
+                        <input type="number" step=1 min=0 id="invSize" name="invSize" required <?php if(isset($invSize)) {echo "value='$invSize'";}
+							elseif(isset($prodInfo['invSize'])) {echo "value='$prodInfo[invSize]'"; } ?> />
 					</div>
 				 </div>
 				 <div class="row">
@@ -106,7 +117,8 @@ $catList .= '</select>';
 						<label for="invWeight">Weight (lbs.)</label>
 					</div>
 					<div class="col-75">
-                        <input type="number" step=1 min=0 id="invWeight" name="invWeight" required <?php if(isset($invWeight)) {echo "value='$invWeight'";} ?> />
+                        <input type="number" step=1 min=0 id="invWeight" name="invWeight" required <?php if(isset($invWeight)) {echo "value='$invWeight'";}
+							elseif(isset($prodInfo['invWeight'])) {echo "value='$prodInfo[invWeight]'"; } ?> />
 					</div>
 				 </div>
 				 <div class="row">
@@ -114,7 +126,8 @@ $catList .= '</select>';
 						<label for="invLocation">Location (city name)</label>
 					</div>
 					<div class="col-75">
-                        <input type="text" id="invLocation" name="invLocation" required <?php if(isset($invLocation)) {echo "value='$invLocation'";} ?> />
+                        <input type="text" id="invLocation" name="invLocation" required <?php if(isset($invLocation)) {echo "value='$invLocation'";}
+							elseif(isset($prodInfo['invLocation'])) {echo "value='$prodInfo[invLocation]'"; } ?> />
 					</div>
 				 </div>
 				 <div class="row">
@@ -122,7 +135,8 @@ $catList .= '</select>';
 						<label for="invVendor">Vendor Name</label>
 					</div>
 					<div class="col-75">
-                        <input type="text" id="invVendor" name="invVendor" required <?php if(isset($invVendor)) {echo "value='$invVendor'";} ?> />
+                        <input type="text" id="invVendor" name="invVendor" required <?php if(isset($invVendor)) {echo "value='$invVendor'";}
+							elseif(isset($prodInfo['invVendor'])) {echo "value='$prodInfo[invVendor]'"; } ?> />
 					</div>
 				 </div>
 				 <div class="row">
@@ -130,13 +144,15 @@ $catList .= '</select>';
 						<label for="invStyle">Primary Material</label>
 					</div>
 					<div class="col-75">
-                        <input type="text" id="invStyle" name="invStyle" required <?php if(isset($invStyle)) {echo "value='$invStyle'";} ?> />
+                        <input type="text" id="invStyle" name="invStyle" required <?php if(isset($invStyle)) {echo "value='$invStyle'";}
+							elseif(isset($prodInfo['invStyle'])) {echo "value='$prodInfo[invStyle]'"; } ?> />
 					</div>
 				 </div>
 				<div class="row">
                     <input type="submit" name="submit" value="Update Product" />
 					<!-- Add the action name - value pair -->
                     <input type="hidden" name="action" value="updateProd" />
+					<input type="hidden" name="invId" value="<?php if(isset($prodInfo['invId'])){ echo $prodInfo['invId'];} elseif(isset($invId)){ echo $invId; } ?>">
 				</div>
 				</form>
 			</div>
