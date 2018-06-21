@@ -58,7 +58,7 @@ $catList .= '</select>';
 						<label for="invDescription">Product Description</label>
 					</div>
 					<div class="col-75">
-                        <input type="text" id="invDescription" name="invDescription" required <?php if(isset($invDescription)) {echo "value='$invDescription'";} ?> />
+                        <input type="text" id="invDescription" name="invDescription" required <?php if(isset($invDescription)) {echo "value='$invDescription'";} elseif(isset($prodInfo['invDescription'])) {echo "value='$prodInfo[invDescription]'"; } ?> />
 					</div>
 				 </div>
 				 <div class="row">
