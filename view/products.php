@@ -3,6 +3,10 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
  header('location: /acme/');
  exit;
 }
+
+if(isset($_SESSION['message'])) {
+	$message = $_SESSION['message'];
+}
 ?>
 <!DOCTYPE html>
 
@@ -32,9 +36,7 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
 		</div>
 		<div>
 			<?php
-			if (isset($message)) {
-				echo $message;
-}			if (isset($prodList)) {
+			if (isset($prodList)) {
 				echo $prodList;
 }
 ?>
@@ -45,3 +47,4 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
     </footer>
 </body>
 </html>
+<?php unset($_SESSION['message']); ?>

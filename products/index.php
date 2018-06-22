@@ -144,9 +144,92 @@ switch ($action){
 
 	case 'updateProd':
 
+	    // Filter and store the data
+		$invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_NUMBER_INT);
+		$invName = filter_input(INPUT_POST, 'invName', FILTER_SANITIZE_STRING);
+		$invDescription = filter_input(INPUT_POST, 'invDescription', FILTER_SANITIZE_STRING);
+		$invImage = filter_input(INPUT_POST, 'invImage', FILTER_SANITIZE_STRING);
+		$invThumbnail = filter_input(INPUT_POST, 'invThumbnail', FILTER_SANITIZE_STRING);
+		$invPrice = filter_input(INPUT_POST, 'invPrice', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+		$invStock = filter_input(INPUT_POST, 'invStock', FILTER_SANITIZE_NUMBER_INT);
+		$invSize = filter_input(INPUT_POST, 'invSize', FILTER_SANITIZE_NUMBER_INT);
+		$invWeight = filter_input(INPUT_POST, 'invWeight', FILTER_SANITIZE_NUMBER_INT);
+		$invLocation = filter_input(INPUT_POST, 'invLocation', FILTER_SANITIZE_STRING);
+		$categoryId = filter_input(INPUT_POST, 'categoryId', FILTER_SANITIZE_NUMBER_INT);
+		$invVendor = filter_input(INPUT_POST, 'invVendor', FILTER_SANITIZE_STRING);
+		$invStyle = filter_input(INPUT_POST, 'invStyle', FILTER_SANITIZE_STRING);
+		$checkPrice = checkPrice($invPrice);
 
+		//check for empty or invalid price
+			if(empty($checkPrice)) {
+				$message = '<div class="errorMessage">Please enter a valid price.</div>';
+				include '../view/prod-update.php';
+			exit; 
+			}
+
+		if(empty($invName) || empty($invDescription) || empty($invImage) || empty($invThumbnail) || empty($invPrice) || empty($invStock) || 
+			empty($invSize) || empty($invWeight) || empty($invLocation) || empty($categoryId) || empty($invVendor) || empty($invStyle))  {
+				$message = '<div class="errorMessage">Please complete all fields.</div>';
+				include '../view/prod-update.php';
+        exit;
+        }
+
+		$updateResult = updateProduct($invId, $invName, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invSize, 
+			$invWeight, $invLocation, $categoryId, $invVendor, $invStyle);
+
+		if($updateResult == 1){
+			$message = '<p>The selected product has been successfully updated.</p>';
+			$_SESSION['message'] = $message;
+			header('Location: /acme/products/');
+//			include '../view/products.php';
+			exit;
+		} else {
+			$message = '<p>Sorry, but the product was not successfully updated. Please try again.</p>';
+			include '../view/prod-update.php';
+			exit;
+		}
 	
 	break;
+
+	case 'del':
+		$invId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+		$prodInfo = getProductInfo($invId);
+		if(count($prodInfo)<1){
+			$message = 'Sorry, no product information could be found.';
+		}
+		include '../view/prod-delete.php';
+		exit;
+		
+	break;
+
+	case 'deleteProd':
+		    // Filter and store the data
+		$invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_NUMBER_INT);
+		$invName = filter_input(INPUT_POST, 'invName', FILTER_SANITIZE_STRING);
+
+		$deleteResult = deleteProduct($invId);
+
+		if($deleteResult == 1){
+			$message = '<p>The selected product has been successfully deleted.</p>';
+			$_SESSION['message'] = $message;
+			header('Location: /acme/products/');
+//			include '../view/products.php';
+			exit;
+		} else {
+/*			$message = '<p>Sorry, but the product was not successfully deleted. Please try again.</p>';
+			include '../view/prod-update.php';
+*/
+			echo $deleteResult;
+			$message = '<p>The selected product deletion failed.</p>';
+			$_SESSION['message'] = $message;
+			header('Location: /acme/products/');
+//			include '../view/products.php';
+
+			exit;
+		}	
+
+	break;
+
 	default:
 
 		$products = getProductBasics();
