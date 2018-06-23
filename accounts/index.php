@@ -147,6 +147,6 @@ case 'doLogin':
 
 
  default:
-	include '../view/admin.php';
+	include '../view/client-update.php';
 //echo 'Hi im default';
 }

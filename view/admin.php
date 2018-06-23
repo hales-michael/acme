@@ -27,7 +27,7 @@ if(!$_SESSION['loggedin']){
 					echo $_SESSION['message'];
 				} else {
 					echo '<p>You are logged in.</p>';
-				}
+				} ?>
 			<div class="userdata">
 				<ul>
 						<?php if($_SESSION['clientData']['clientLevel'] == 3) {
@@ -45,7 +45,7 @@ if(!$_SESSION['loggedin']){
 -->
 				</div>
 				<div>
-					<a href= "../products/index.php?action=clientUpdate">Update Account Information</a>
+					<a href= "../accounts/index.php?action=clientUpdate">Update Account Information</a>
 				</div>
 			<?php
 				if($_SESSION['clientData']['clientLevel'] > 1) {
