@@ -1,9 +1,9 @@
-<!--<?php
+<?php /*
 if(!$_SESSION['loggedin']){
 //echo $SESSION['loggedin'];
 	include '../index.php';
-}
-?>-->
+} */
+?>
 <!DOCTYPE html>
 <html lang='en'>
 <head>
@@ -24,7 +24,7 @@ if(!$_SESSION['loggedin']){
 					echo $_SESSION['message']; } ?>
 			</div>
 			<div class="container">
-				<form action="/acme/products/index.php" method="post">
+				<form action="/acme/accounts/index.php" method="post">
 				<div class="row" >
 					<div class="col-25">
 						<label for="clientFirstname">First Name</label>
@@ -56,6 +56,8 @@ if(!$_SESSION['loggedin']){
                     <input type="submit" name="submit" value="Update Account" />
 					<!-- Add the action name - value pair -->
                     <input type="hidden" name="action" value="updateAccount" />
+					<input type="hidden" name="clientId" value="<?php if(isset($_SESSION['clientData']['clientId'])){ echo $_SESSION['clientData']['clientId'];} 
+						elseif(isset($clientId)){ echo $clientId; } ?>">
 				</div>
 				</form>
 			</div>
@@ -63,13 +65,13 @@ if(!$_SESSION['loggedin']){
 				<h2>Password Change</h2>
 			</div>
 			<div class="container">
-				<form action="/acme/products/index.php" method="post">
+				<form action="/acme/accounts/index.php" method="post">
 				<div class="row">
 					<div class="col-25">
-						<label for="newPassword">New Password</label>
+						<label for="clientPassword">New Password</label>
 					</div>
 					<div class="col-75">
-                        <input type="password" id="newPassword" name="newPassword" required />
+                        <input type="password" id="clientPassword" name="clientPassword" required />
 					</div>
 				 </div>
 				<div class="row">
@@ -82,8 +84,8 @@ if(!$_SESSION['loggedin']){
                     <input type="submit" name="submit" value="Change Password" />
 					<!-- Add the action name - value pair -->
                     <input type="hidden" name="action" value="changePassword" />
-					<input type="hidden" name="clientId" value="<?php if(isset($_SESSION['clientData']['clientId])){ echo $_SESSION['clientData']['clientId'];} 
-						elseif(isset(clientId)){ echo $clientId; } ?>">
+					<input type="hidden" name="clientId" value="<?php if(isset($_SESSION['clientData']['clientId'])){ echo $_SESSION['clientData']['clientId'];} 
+						elseif(isset($clientId)){ echo $clientId; } ?>">
 				</div>
 				</form>
 			</div>

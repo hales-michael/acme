@@ -1,8 +1,8 @@
-<?php
+<?php /*
 if(!$_SESSION['loggedin']){
 //echo $SESSION['loggedin'];
 	include '../index.php';
-}
+}*/
 ?>
 <!DOCTYPE html>
 <html lang='en'>

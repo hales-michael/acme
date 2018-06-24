@@ -4,7 +4,6 @@
  // Create or access a Session
      if(!isset($_SESSION)) {
 		session_start();
-		$_SESSION['loggedin'] = FALSE;
 	}
 
 
@@ -145,8 +144,105 @@ case 'doLogin':
 		header('Location: /acme/index.php/');
 		break;
 
+	case 'clientUpdate' :
+		include '../view/client-update.php';
+		break;
+
+	case 'updateAccount' :
+
+		// Filter and store the data
+		$clientId = filter_input(INPUT_POST, 'clientId', FILTER_SANITIZE_NUMBER_INT);
+		$clientFirstname = filter_input(INPUT_POST, 'clientFirstname', FILTER_SANITIZE_STRING);
+		$clientLastname = filter_input(INPUT_POST, 'clientLastname', FILTER_SANITIZE_STRING);
+		$clientEmail = filter_input(INPUT_POST, 'clientEmail', FILTER_SANITIZE_EMAIL);
+		$clientEmail = checkEmail($clientEmail);
+
+		// Check email against email address from session
+			if($clientEmail != $_SESSION['clientData']['clientEmail']) {
+				//  Existing Email Check
+				$existingEmail = checkExistingEmail($clientEmail);
+				if($existingEmail) {
+		 			// $message
+					$_SESSION['message'] = '<div class="errorMessage">Email address already exists. Please try again.</div>';
+					include '../view/client-update.php';
+					exit;
+				}
+			}
+		if(empty($clientFirstname) || empty($clientLastname) || empty($clientEmail)) {
+			// $message
+			$_SESSION['message'] = '<div class="errorMessage">Please provide information for all empty form fields.</div>';
+			include '../view/client-update.php';
+			exit;
+		}
+
+		$updateOutcome = updateClient($clientFirstname, $clientLastname, $clientEmail, $clientId);
+
+		// Check and report the result
+		if($updateOutcome === 1) {
+
+		    $_SESSION['message'] = "Your account has been successfully updated.";
+
+			$clientData = getClientData($clientId);
+
+			// Remove the password from the array
+			// the array_pop function removes the last
+			// element from an array
+			array_pop($clientData);
+			// Store the array into the session
+			$_SESSION['clientData'] = $clientData;
+			// Send them to the admin view
+			setcookie('firstname', $_SESSION['clientData']['clientFirstname'], strtotime('+1 year'), '/');
+			include '../view/admin.php';
+			exit;
+
+			include '../view/admin.php';
+		    exit;
+
+		 } else {
+		     // $message = 
+			 $_SESSION['message'] = "<div>Sorry $clientFirstname, but the Account update failed. Please try again.</div>";
+		     include '../view/client-update.php';
+		     exit;
+     }
+
+	break;
+
+	case 'changePassword' :
+
+		$clientPassword = filter_input(INPUT_POST, 'clientPassword', FILTER_SANITIZE_STRING);
+		$clientId = filter_input(INPUT_POST, 'clientId', FILTER_SANITIZE_NUMBER_INT);
+		$passwordCheck = checkPassword($clientPassword);
+
+			// Run basic checks, return if errors
+		if (empty($passwordCheck)) {
+			// $message
+			$_SESSION['message'] = "<p class='notice'>Password field cannot be blank.</p>";
+			include '../view/client-update.php';
+			exit;
+		}
+
+	 $hashedPassword = password_hash($clientPassword, PASSWORD_DEFAULT);
+
+     $passwordChangeOutcome = updatePassword($hashedPassword, $clientId);
+
+     // Check and report the result
+     if($passwordChangeOutcome === 1) {
+
+         $_SESSION['message'] = "Your password has been successfully changed.";
+
+         header('Location: /acme/accounts/?action=admin');
+         exit;
+     } else {
+         // $message = 
+		 $_SESSION['message'] = "<div>Sorry, the password was not successfully changed</div>";
+         include '../view/client-update.php';
+         exit;
+     }
+
+     break;  
+
 
  default:
-	include '../view/client-update.php';
+
 //echo 'Hi im default';
 }

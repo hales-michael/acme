@@ -71,3 +71,46 @@ function getClient($clientEmail){
  return $clientData;
 }
 
+function updateClient($clientFirstname, $clientLastname, $clientEmail, $clientId) {
+	$db = acmeConnect();
+	$sql = 'UPDATE clients
+		SET clientFirstname = :clientFirstname, clientLastname = :clientLastname, clientEmail = :clientEmail
+		WHERE clientId = :clientId';
+	$stmt = $db->prepare($sql);
+	$stmt->bindValue(':clientFirstname', $clientFirstname, PDO::PARAM_STR);
+	$stmt->bindValue(':clientLastname', $clientLastname, PDO::PARAM_STR);
+	$stmt->bindValue(':clientEmail', $clientEmail, PDO::PARAM_STR);
+	$stmt->bindValue(':clientId', $clientId, PDO::PARAM_INT);
+	$stmt->execute();
+	$rowsChanged = $stmt->rowCount();
+	$stmt->closeCursor();
+	return $rowsChanged;
+}
+
+ // Get client data based on the clientID
+function getClientData($clientId){
+ $db = acmeConnect();
+ $sql = 'SELECT clientId, clientFirstname, clientLastname, clientEmail, clientLevel, clientPassword 
+         FROM clients
+         WHERE clientId = :clientId';
+ $stmt = $db->prepare($sql);
+ $stmt->bindValue(':clientId', $clientId, PDO::PARAM_INT);
+ $stmt->execute();
+ $clientData = $stmt->fetch(PDO::FETCH_ASSOC);
+ $stmt->closeCursor();
+ return $clientData;
+}
+
+function updatePassword($hashedPassword, $clientId) {
+	$db = acmeConnect();
+	$sql = 'UPDATE clients
+		SET clientPassword = :hashedPassword
+		WHERE clientId = :clientId';
+	$stmt = $db->prepare($sql);
+	$stmt->bindValue(':clientId', $clientId, PDO::PARAM_INT);
+	$stmt->bindValue(':hashedPassword', $hashedPassword, PDO::PARAM_STR);
+	$stmt->execute();
+	$rowsChanged = $stmt->rowCount();
+	$stmt->closeCursor();
+	return $rowsChanged;
+}
