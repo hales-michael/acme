@@ -142,3 +142,17 @@ function deleteProduct($invId) {
     // Return the indication of success (rows changed)
     return $rowsChanged;
 }
+
+function buildProductsDisplay($products){
+	$pd = '<ul id="prod-display">';
+	foreach ($products as $product) {
+		$pd .= '<li>';
+		$pd .= "<img src='$product[invThumbnail]' alt='Image of $product[invName] on Acme.com'>";
+		$pd .= '<hr>';
+		$pd .= "<h2>$product[invName]</h2>";
+		$pd .= "<span>$product[invPrice]</span>";
+		$pd .= '</li>';
+	}
+	$pd .= '</ul>';
+	return $pd;
+}

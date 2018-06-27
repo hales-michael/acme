@@ -230,6 +230,20 @@ switch ($action){
 
 	break;
 
+	case 'category':
+
+		$type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_STRING);
+		$products = getProductsByCategory($type);
+		if(!count($products)) {
+			$message = "<p> class='errorMessage'>Sorry, no $type products could be found.</p>";
+			} else {
+
+				$prodDisplay = buildProductsDisplay($products);
+			}
+
+		include '../view/category.php';
+	break;
+
 	default:
 
 		$products = getProductBasics();
@@ -248,6 +262,7 @@ switch ($action){
 		} else {
 			$message = '<p class="notify">Sorry, no products were returned.</p>';
 }
+
 
 		include '../view/products.php';
 }
