@@ -250,6 +250,10 @@ switch ($action){
 
 	$prodDetail = getProductInfo($item);
 
+	$pd = productDisplay($prodDetail);
+
+	include '../view/prod-detail.php';
+
 
 
 

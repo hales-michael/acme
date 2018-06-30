@@ -42,30 +42,29 @@ function getProductsByCategory($type) {
 
 function productDisplay($prodDetail) {
 
-	$pd = "<div class='detailwrapper'><img src='/acme/images/products/";
+	$pd = "<div class='detailwrapper'><img src='";
 	$pd .= $prodDetail['invImage'];
-	$pd .= "alt='$prodDetail[invName']/><div class='details'><h3>";
+	$pd .= "' alt='";
+	$pd .= $prodDetail['invName'];
+	$pd .= "'/><div class='details'><h3>";
 	$pd .= $prodDetail['invName'];
 	$pd .= "</h3><p>In Stock: ";
 	$pd .= $prodDetail['invStock'];
 	$pd .= "</p><p>Size: ";
 	$pd .= $prodDetail['invSize'];
-	$pd .= "</p><p>Weight: "
-	$pd .= <?php echo $prodDetail['invWeight']; ?> </p>
-					 <p>Style: <?php echo $prodDetail['invStyle']; ?> </p>
-					 <p>Location: <?php echo $prodDetail['invLocation']; ?> </p>
-					 <div class='description'>
-						<p><?php echo $prodDetail['invDescription']; ?> </p>
-					</div>
-					<div class='price'>
-						<h3>Price: <?php echo $prodDetail['invPrice']; ?> </h3>
-					</div>
-				</div>
-			</div>
+	$pd .= "</p><p>Weight: ";
+	$pd .= $prodDetail['invWeight'];
+	$pd .= "</p><p>Style: ";
+	$pd .= $prodDetail['invStyle'];
+	$pd .= "</p><p>Location: ";
+	$pd .= $prodDetail['invLocation'];
+	$pd .= "</p><div class='description'><p>";
+	$pd .= $prodDetail['invDescription'];
+	$pd .= "</p></div><div class='price'><h3>Price: ";
+	$pd .= $prodDetail['invPrice'];
+	$pd .= "</h3></div></div></div>";
 
-
-
-
-
+return $pd;
+}
 
 ?>
