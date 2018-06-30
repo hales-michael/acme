@@ -244,6 +244,19 @@ switch ($action){
 		include '../view/category.php';
 	break;
 
+	case 'detail':
+
+	$item = filter_input(INPUT_GET, 'item', FILTER_SANITIZE_STRING);
+
+	$prodDetail = getProductInfo($item);
+
+
+
+
+
+	break;
+
+
 	default:
 
 		$products = getProductBasics();

@@ -11,6 +11,6 @@
     "\\products",
     "\\view"
   ],
-  "SelectedNode": "\\view\\prod-delete.php",
+  "SelectedNode": "\\model\\products-model.php",
   "PreviewInSolutionExplorer": false
 }
