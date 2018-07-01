@@ -7,10 +7,10 @@
     "\\images",
     "\\images\\site",
     "\\library",
+    "\\Miscellaneous",
     "\\model",
-    "\\products",
-    "\\view"
+    "\\products"
   ],
-  "SelectedNode": "\\model\\products-model.php",
+  "SelectedNode": "\\Miscellaneous\\prod-detail.php",
   "PreviewInSolutionExplorer": false
 }

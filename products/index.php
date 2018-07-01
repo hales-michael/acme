@@ -247,16 +247,10 @@ switch ($action){
 	case 'detail':
 
 	$item = filter_input(INPUT_GET, 'item', FILTER_SANITIZE_STRING);
-
 	$prodDetail = getProductInfo($item);
-
 	$pd = productDisplay($prodDetail);
 
 	include '../view/prod-detail.php';
-
-
-
-
 
 	break;
 

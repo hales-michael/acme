@@ -46,9 +46,9 @@ function productDisplay($prodDetail) {
 	$pd .= $prodDetail['invImage'];
 	$pd .= "' alt='";
 	$pd .= $prodDetail['invName'];
-	$pd .= "'/><div class='details'><h3>";
+	$pd .= "'/><div class='details'><h1>";
 	$pd .= $prodDetail['invName'];
-	$pd .= "</h3><p>In Stock: ";
+	$pd .= "</h1><p>In Stock: ";
 	$pd .= $prodDetail['invStock'];
 	$pd .= "</p><p>Size: ";
 	$pd .= $prodDetail['invSize'];
@@ -58,9 +58,9 @@ function productDisplay($prodDetail) {
 	$pd .= $prodDetail['invStyle'];
 	$pd .= "</p><p>Location: ";
 	$pd .= $prodDetail['invLocation'];
-	$pd .= "</p><div class='description'><p>";
+	$pd .= "</p><div class='description'><h3>Product Description</h3><p>";
 	$pd .= $prodDetail['invDescription'];
-	$pd .= "</p></div><div class='price'><h3>Price: ";
+	$pd .= "</p></div><div class='price'><h3>Price: $";
 	$pd .= $prodDetail['invPrice'];
 	$pd .= "</h3></div></div></div>";
 

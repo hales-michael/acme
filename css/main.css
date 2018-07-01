@@ -342,12 +342,19 @@ input[type=submit] {
 .detailwrapper {
 	display: flex;
 	flex-flow: row nowrap;
+	justify-content: space-between;
 }
 
 .detailwrapper img, .details {
+/*	display: flex;
+	flex-flow: column nowrap;*/
+	padding: 10px;
+	margin: 20px;
+}
+
+.details {
 	display: flex;
 	flex-flow: column nowrap;
-
 }
 
 .detailwrapper img {
@@ -355,6 +362,25 @@ input[type=submit] {
 	max-width: 500px;
 	height: auto;
 	width: auto;
+	border: 3px solid black;
+	box-shadow: 5px 3px #888888;
+	border-radius: 5px;
+
+}
+
+.price {
+	color: #de2226;
+}
+
+.description {
+	border: 3px solid black;
+	box-shadow: 5px 3px #888888;
+	border-radius: 5px;
+}
+
+.description p, .description h3 {
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
@@ -426,13 +452,24 @@ input[type=submit] {
 
 @media screen and (min-width: 768px) {
 
-#prod-display{
- flex-flow: row wrap;
- justify-content: flex-start;
+	#prod-display {
+		 flex-flow: row wrap;
+		 justify-content: flex-start;
+	}
+
+	#prod-display li {
+		 max-width: 200px;
+		 flex: 1 0 auto;
+		 text-align: center;
+		 max-height: 400px; 
+	}
 }
-#prod-display li{
- max-width: 200px;
- flex: 1 0 auto;
- text-align: center;
- max-height: 400px; }
+
+@media screen and (max-width: 768px) {
+
+	.detailwrapper {
+		display: flex;
+		flex-flow: column wrap;
+	}
+
 }
