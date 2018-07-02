@@ -4,13 +4,12 @@
     "\\accounts",
     "\\common",
     "\\css",
-    "\\images",
-    "\\images\\site",
     "\\library",
     "\\Miscellaneous",
     "\\model",
-    "\\products"
+    "\\products",
+    "\\uploads"
   ],
-  "SelectedNode": "\\Miscellaneous\\prod-detail.php",
+  "SelectedNode": "\\library\\functions.php",
   "PreviewInSolutionExplorer": false
 }
