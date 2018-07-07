@@ -8,8 +8,9 @@
     "\\Miscellaneous",
     "\\model",
     "\\products",
-    "\\uploads"
+    "\\uploads",
+    "\\view"
   ],
-  "SelectedNode": "\\library\\functions.php",
+  "SelectedNode": "\\uploads\\index.php",
   "PreviewInSolutionExplorer": false
 }
