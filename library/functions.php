@@ -13,7 +13,7 @@ function checkPassword ($clientPassword) {
 function buildNav ($categories) {
 	$navList = '<ul>';
 	$navList .= "<li><a href='/acme/' title='View the Acme home page'>Home</a></li>";
-	
+
 	foreach ($categories as $category) {
 		$navList .= "<li>";
 		$navList .= "<a href='/acme/products/?action=category&type=".urlencode($category['categoryName'])."' title='View our $category[categoryName] product line'>$category[categoryName]</a></li>";}
@@ -42,7 +42,7 @@ function getProductsByCategory($type) {
 
 function productDisplay($prodDetail) {
 
-	$pd = "<div class='detailwrapper'><img src='";
+	$pd = "<div class='detailwrapper'><img class='imageThumb' id='itemMainImage' src='";
 	$pd .= $prodDetail['invImage'];
 	$pd .= "' alt='";
 	$pd .= $prodDetail['invName'];
@@ -131,7 +131,7 @@ function uploadFile($name) {
  }
 }
 
-// Processes images by getting paths and 
+// Processes images by getting paths and
 // creating smaller versions of the image
 function processImage($dir, $filename) {
  // Set up the variables
@@ -152,7 +152,7 @@ function processImage($dir, $filename) {
 
 // Checks and Resizes image
 function resizeImage($old_image_path, $new_image_path, $max_width, $max_height) {
-     
+
  // Get image type
  $image_info = getimagesize($old_image_path);
  $image_type = $image_info[2];
