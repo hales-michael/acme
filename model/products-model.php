@@ -143,18 +143,5 @@ function deleteProduct($invId) {
     return $rowsChanged;
 }
 
-function buildProductsDisplay($products){
-	$pd = '<ul id="prod-display">';
-	foreach ($products as $product) {
-		$pd .= '<li>';
-		$pd .= "<a href='/acme/products/index.php?action=detail&item=$product[invId]'><img src='$product[invThumbnail]' alt='Image of $product[invName] on Acme.com'>";
-		$pd .= '<hr>';
-		$pd .= "<h2>$product[invName]</h2>";
-		$pd .= "<span>$product[invPrice]</span></a>";
-		$pd .= '</li>';
-	}
-	$pd .= '</ul>';
-	return $pd;
-}
 
-/*function getProductDetail( ) */
+?>

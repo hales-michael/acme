@@ -359,9 +359,9 @@ input[type=submit] {
 
 .detailwrapper img {
 	max-height: 500px;
-	max-width: 500px;
-	height: auto;
-	width: auto;
+	/* max-width: 500px; 
+	height: auto; */
+	width: 500px; /* auto; */
 	border: 3px solid black;
 	box-shadow: 5px 3px #888888;
 	border-radius: 5px;
@@ -383,6 +383,20 @@ input[type=submit] {
 	margin-right: 10px;
 }
 
+.thumbwrapper img {
+    border: 3px solid black;
+    /*box-shadow: 5px 3px #888888;
+    border-radius: 5px;*/
+    padding: 5px;
+    margin: 10px;
+    height: 200px;
+    cursor: pointer;
+    width: 200px;
+}
+
+.uploadwrapper {
+    padding: 10px;
+}
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
     .col-25, .col-75 {

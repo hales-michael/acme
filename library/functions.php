@@ -40,9 +40,24 @@ function getProductsByCategory($type) {
 	return $products;
 }
 
+function buildProductsDisplay($products){
+	$pd = '<ul id="prod-display">';
+	foreach ($products as $product) {
+		$pd .= '<li>';
+		$pd .= "<a href='/acme/products/index.php?action=detail&item=$product[invId]'><img src='$product[invThumbnail]' alt='Image of $product[invName] on
+            Acme.com'>";
+		$pd .= '<hr>';
+		$pd .= "<h2>$product[invName]</h2>";
+		$pd .= "<span>$product[invPrice]</span></a>";
+		$pd .= '</li>';
+	}
+	$pd .= '</ul>';
+	return $pd;
+}
+
 function productDisplay($prodDetail) {
 
-	$pd = "<div class='detailwrapper'><img class='imageThumb' id='itemMainImage' src='";
+	$pd = "<div class='detailwrapper'><img id='itemMainImage' src='";
 	$pd .= $prodDetail['invImage'];
 	$pd .= "' alt='";
 	$pd .= $prodDetail['invName'];
@@ -65,6 +80,17 @@ function productDisplay($prodDetail) {
 	$pd .= "</h3></div></div></div>";
 
 return $pd;
+}
+
+function thumbnailDisplay($thumbInfo) {
+
+    $ti =  "<div class='thumbwrapper' >";
+    foreach ($thumbInfo as $thumb) {
+        $ti .= "<img src='$thumb[imgPath]' alt='Thumbnail of $thumb[imgName]' class='imageThumb' />";
+    }
+
+    $ti .= "</div>";
+    return $ti;
 }
 
 

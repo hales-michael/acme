@@ -3,13 +3,13 @@
 <head>
     <title>ACME: Your one stop shop for all things Roadrunner-Murdery </title>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/acme/common/head.php'; ?>
-    <script type="text/javascript">
+    <script>
         $(document).ready(function () {
             $('.imageThumb').click(function () {
                 $('#itemMainImage').attr('src', $(this).attr('src').replace('-tn', ''));
             });
         });
-    </script>
+    </script> 
 
 </head>
     <body>
@@ -18,7 +18,7 @@
         </header>
         <main>
 
-		<?php echo $pd; ?>
+		<?php echo $pd; echo $ti; ?>
 
         </main> 
 

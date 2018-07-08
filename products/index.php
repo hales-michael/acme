@@ -19,10 +19,12 @@ require_once '../model/acme-model.php';
 require_once '../model/products-model.php';
 // Get the functions library
 require_once '../library/functions.php';
+// Get the uploads model
+require_once '../model/uploads-model.php';
 
 // Get the array of categories
 $categories = getCategories();
- 
+
 /* // Build a navigation bar using the $categories array
 $navList = '<ul>';
 $navList .= "<li><a href='/acme/index.php' title='View the Acme home page'>Home</a></li>";
@@ -37,7 +39,7 @@ foreach ($categories as $category) {
 $navList .= '</ul>';
 $catList .= '</select>';
 
- 
+
  */
 
  // Build Navigation Menu
@@ -105,17 +107,17 @@ switch ($action){
 			if(empty($checkPrice)) {
 				$message = '<div class="errorMessage">Please enter a valid price.</div>';
 				include '../view/addproduct.php';
-			exit; 
+			exit;
 			}
 
-		if(empty($invName) || empty($invDescription) || empty($invImage) || empty($invThumbnail) || empty($invPrice) || empty($invStock) || 
+		if(empty($invName) || empty($invDescription) || empty($invImage) || empty($invThumbnail) || empty($invPrice) || empty($invStock) ||
 			empty($invSize) || empty($invWeight) || empty($invLocation) || empty($categoryId) || empty($invVendor) || empty($invStyle))  {
 				$message = '<div class="errorMessage">Please complete all fields.</div>';
 				include '../view/addproduct.php';
         exit;
         }
 
-		$addProductOutcome = insertProduct($invName, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invSize, 
+		$addProductOutcome = insertProduct($invName, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invSize,
 			$invWeight, $invLocation, $categoryId, $invVendor, $invStyle);
 
 		if($addProductOutcome == 1){
@@ -164,17 +166,17 @@ switch ($action){
 			if(empty($checkPrice)) {
 				$message = '<div class="errorMessage">Please enter a valid price.</div>';
 				include '../view/prod-update.php';
-			exit; 
+			exit;
 			}
 
-		if(empty($invName) || empty($invDescription) || empty($invImage) || empty($invThumbnail) || empty($invPrice) || empty($invStock) || 
+		if(empty($invName) || empty($invDescription) || empty($invImage) || empty($invThumbnail) || empty($invPrice) || empty($invStock) ||
 			empty($invSize) || empty($invWeight) || empty($invLocation) || empty($categoryId) || empty($invVendor) || empty($invStyle))  {
 				$message = '<div class="errorMessage">Please complete all fields.</div>';
 				include '../view/prod-update.php';
         exit;
         }
 
-		$updateResult = updateProduct($invId, $invName, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invSize, 
+		$updateResult = updateProduct($invId, $invName, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invSize,
 			$invWeight, $invLocation, $categoryId, $invVendor, $invStyle);
 
 		if($updateResult == 1){
@@ -188,7 +190,7 @@ switch ($action){
 			include '../view/prod-update.php';
 			exit;
 		}
-	
+
 	break;
 
 	case 'del':
@@ -199,7 +201,7 @@ switch ($action){
 		}
 		include '../view/prod-delete.php';
 		exit;
-		
+
 	break;
 
 	case 'deleteProd':
@@ -226,7 +228,7 @@ switch ($action){
 //			include '../view/products.php';
 
 			exit;
-		}	
+		}
 
 	break;
 
@@ -246,11 +248,13 @@ switch ($action){
 
 	case 'detail':
 
-	$item = filter_input(INPUT_GET, 'item', FILTER_SANITIZE_STRING);
-	$prodDetail = getProductInfo($item);
-	$pd = productDisplay($prodDetail);
+        $item = filter_input(INPUT_GET, 'item', FILTER_SANITIZE_NUMBER_INT);
+	    $prodDetail = getProductInfo($item);
+	    $pd = productDisplay($prodDetail);
+        $thumbInfo = getThumbnailDetails($item);
+        $ti = thumbnailDisplay($thumbInfo);
 
-	include '../view/prod-detail.php';
+	    include '../view/prod-detail.php';
 
 	break;
 
@@ -267,7 +271,8 @@ switch ($action){
 			foreach ($products as $product) {
 				$prodList .= "<tr><td>$product[invName]</td>";
 				$prodList .= "<td><a href='/acme/products?action=mod&id=$product[invId]' title='Click to modify'>Modify</a></td>";
-				$prodList .= "<td><a href='/acme/products?action=del&id=$product[invId]' title='Click to delete'>Delete</a></td></tr>";
+				$prodList .= "<td><a href='/acme/products?action=del&id=$product[invId]' title='Click to delete'>Delete</a></td>
+                    </tr>";
 			}
 			$prodList .= '</tbody></table>';
 		} else {

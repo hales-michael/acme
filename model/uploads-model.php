@@ -62,5 +62,16 @@ function checkExistingImage($imgName){
  return $imageMatch;
 }
 
+function getThumbnailDetails($invId) {
+    $db = acmeConnect();
+    $sql = "SELECT imgId, imgPath, imgName FROM images WHERE invId = :invId and imgPath LIKE '%-tn.%'";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
+    $stmt->execute();
+    $thumbMatch = $stmt->fetchAll();
+    $stmt->closeCursor();
+    return $thumbMatch;
+
+}
 
 ?>
