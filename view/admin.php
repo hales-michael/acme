@@ -45,8 +45,9 @@ if(!$_SESSION['loggedin']){
 -->
 				</div>
 				<div>
-					<a href= "../accounts/index.php?action=clientUpdate">Update Account Information</a>
+					<a href='../accounts/index.php?action=clientUpdate'>Update Account Information</a>
 				</div>
+
 			<?php
 				if($_SESSION['clientData']['clientLevel'] > 1) {
 					echo "<div class='adminfunctions'>

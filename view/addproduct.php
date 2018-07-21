@@ -1,5 +1,4 @@
 <?php
-
 $catList = "<select name='categoryId' id='categoryId'>";
 $catList .= "<option disabled selected value>-- Please choose a category --</option>";
 foreach ($categories as $category) {

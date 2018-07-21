@@ -254,6 +254,8 @@ switch ($action){
         $thumbInfo = getThumbnailDetails($item);
         $ti = thumbnailDisplay($thumbInfo);
 
+        // $rev = getReviewDisplay($item)
+
 	    include '../view/prod-detail.php';
 
 	break;

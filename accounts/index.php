@@ -18,12 +18,11 @@
 
  // Get the array of categories
 	$categories = getCategories();
-//	var_dump($categories);
-//	exit;
+
 
 // Build a navigation bar using the $categories array
  $navList = buildNav($categories);
- 
+
 $action = filter_input(INPUT_POST, 'action');
  if ($action == NULL){
   $action = filter_input(INPUT_GET, 'action');
@@ -77,7 +76,7 @@ $action = filter_input(INPUT_POST, 'action');
          header('Location: /acme/accounts/?action=login');
          exit;
      } else {
-         // $message = 
+         // $message =
 		 $_SESSION['message'] = "<div>Sorry $clientFirstname, but the registration failed. Please try again.</div>";
          include '../view/registration.php';
          exit;
@@ -99,7 +98,7 @@ case 'doLogin':
 		include '../view/login.php';
 		exit;
 	}
-  
+
 	// A valid password exists, proceed with the login process
 	// Query the client data based on the email address
 	$clientData = getClient($clientEmail);
@@ -109,9 +108,9 @@ case 'doLogin':
 	// If the hashes don't match create an error
 	// and return to the login view
 
-	
+
 	if(!$hashCheck) {
-		// $message = 
+		// $message =
 		$_SESSION['message'] = '<p class="notice">Please check your password and try again.</p>';
 		include '../view/login.php';
 		exit;
@@ -124,8 +123,14 @@ case 'doLogin':
 	array_pop($clientData);
 	// Store the array into the session
 	$_SESSION['clientData'] = $clientData;
-	// Send them to the admin view
+
+
+    // Set Cookies
+    $screenName = substr($SESSION['clientData']['clientFirstName'], 0, 1) . $SESSION['clientData']['clientLastName'];
 	setcookie('firstname', $_SESSION['clientData']['clientFirstname'], strtotime('+1 year'), '/');
+    setcookie('screenName', $screenName, strtotime('+1 year'), '/');
+
+
 	include '../view/admin.php';
 	exit;
 	break;
@@ -136,10 +141,10 @@ case 'doLogin':
 		break;
 
 	case 'logout' :
-		
-		// destroy the session 
-		session_destroy(); 
-		session_unset(); 
+
+		// destroy the session
+		session_destroy();
+		session_unset();
 
 		header('Location: /acme/index.php/');
 		break;
@@ -199,7 +204,7 @@ case 'doLogin':
 		    exit;
 
 		 } else {
-		     // $message = 
+		     // $message =
 			 $_SESSION['message'] = "<div>Sorry $clientFirstname, but the Account update failed. Please try again.</div>";
 		     include '../view/client-update.php';
 		     exit;
@@ -233,13 +238,13 @@ case 'doLogin':
          header('Location: /acme/accounts/?action=admin');
          exit;
      } else {
-         // $message = 
+         // $message =
 		 $_SESSION['message'] = "<div>Sorry, the password was not successfully changed</div>";
          include '../view/client-update.php';
          exit;
      }
 
-     break;  
+     break;
 
 
  default:

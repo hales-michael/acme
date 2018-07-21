@@ -4,13 +4,13 @@
     "\\accounts",
     "\\common",
     "\\css",
-    "\\images\\products",
     "\\library",
     "\\Miscellaneous",
     "\\model",
-    "\\uploads",
-    "\\uploads\\images"
+    "\\products",
+    "\\reviews",
+    "\\view"
   ],
-  "SelectedNode": "\\model\\uploads-model.php",
+  "SelectedNode": "\\products\\index.php",
   "PreviewInSolutionExplorer": false
 }
