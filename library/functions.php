@@ -261,13 +261,12 @@ function buildAdminReviewDisplay($clientId) {
     foreach ($reviewArray as $review) {
         $invId = getReviewInvId();
         $prodInfo = getProductInfo($review[$invId]);
-        $id .= '<li>';
-        $id .= "<p class='product-reviewed'>$review[]' title='$image[invName] image on Acme.com' alt='$image[invName] image on Acme.com'>";
-        $id .= "<p><a href='/acme/uploads?action=delete&imgId=$image[imgId]&filename=$image[imgName]' title='Delete the image'>Delete $image[imgName]</a></p>";
-        $id .= '</li>';
+        // $id .= '<li>';
+        // $id .= "<p class='product-reviewed'>";
+        // $id .= "<p><a href='/acme/uploads?action=delete&imgId=$image[imgId]&filename=$image[imgName]' title='Delete the image'>Delete $image[imgName]</a></p>";
+        // $id .= '</li>';
     }
-    $id .= '</ul>';
-
+    
 }
 
 
