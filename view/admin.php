@@ -40,9 +40,9 @@ if(!$_SESSION['loggedin']){
 						<li><?php echo "First Name: " . $_SESSION['clientData']['clientFirstname']; ?></li>
 						<li><?php echo "Last Name: " . $_SESSION['clientData']['clientLastname']; ?></li>
 						<li><?php echo "Email Address: " . $_SESSION['clientData']['clientEmail']; ?></li>
-<!--						<li><?php echo "Access Level: $accessLevel" ?></li>
+<!--						<li><?php echo "Access Level: $accessLevel" ?></li> -->
 					</ul>
--->
+
 				</div>
 				<div>
 					<a href='../accounts/index.php?action=clientUpdate'>Update Account Information</a>
@@ -55,6 +55,9 @@ if(!$_SESSION['loggedin']){
 							<a href='../products/'>Product Management Page</a>
 						</div>";
 				}
+
+                echo $rv;
+
 				?>
 		</div>
         </main>

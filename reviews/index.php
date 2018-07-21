@@ -71,7 +71,7 @@ switch ($action){
             include '../view/addreview.php';
             exit;
 
-
+        }
 
     break;
 

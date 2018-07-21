@@ -251,6 +251,25 @@ function resizeImage($old_image_path, $new_image_path, $max_width, $max_height) 
   imagedestroy($old_image);
 } // ends the if - else began on line 36
 
+function buildAdminReviewDisplay($clientId) {
+
+    $reviewArray = getClientReviews($clientId);
+    // $prodInfo = getProductInfo($reviewArray[$invId]);
+
+    $rv = '<h3>Manage Your Product Reviews</h3>';
+    $rv .= '<ul id="admin-reviews">';
+    foreach ($reviewArray as $review) {
+        $invId = getReviewInvId();
+        $prodInfo = getProductInfo($review[$invId]);
+        $id .= '<li>';
+        $id .= "<p class='product-reviewed'>$review[]' title='$image[invName] image on Acme.com' alt='$image[invName] image on Acme.com'>";
+        $id .= "<p><a href='/acme/uploads?action=delete&imgId=$image[imgId]&filename=$image[imgName]' title='Delete the image'>Delete $image[imgName]</a></p>";
+        $id .= '</li>';
+    }
+    $id .= '</ul>';
+
+}
+
 
 
 
