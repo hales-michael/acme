@@ -35,48 +35,121 @@ switch ($action){
 
 
 
-    /* Needed cases:
-     * 1. Add a new review
-     * 2. Deliver a view to edit a review.
-     * 3. Handle the review update.
-     * 4. Deliver a view to confirm deletion of a review.
-     * 5. Handle the review deletion.
-     * 6. A default that will deliver the "admin" view if the client is logged in or the
-     *   acme home view if not.
-     */
+	/* Needed cases:
+	 x 1. Add a new review
+	 x 2. Deliver a view to edit a review.
+	 x 3. Handle the review update.
+	 x 4. Deliver a view to confirm deletion of a review.
+	 x 5. Handle the review deletion.
+	 * 6. A default that will deliver the "admin" view if the client is logged in or the
+	 *   acme home view if not.
+	 */
 
-    case 'addReview':
-        // Filter and store the data
-        $reviewText = filter_input(INPUT_POST, 'reviewText', FILTER_SANITIZE_STRING);
-        // $invId = SOMETHING;
-        $clientId = $_SESSION['clientData']['clientId'];
+	case 'addNewReview':
+		// Filter and store the data
+		$invId = filter_input(INPUT_POST, 'invId', FILTER_VALIDATE_INT);
+		$reviewText = filter_input(INPUT_POST, 'reviewText', FILTER_SANITIZE_STRING);
 
 
-        if(empty($reviewText)){
-            $message = '<div class="errorMessage">*** Review field cannot be blank. ***</div>';
-            include '../view/addreview.php';
-            exit;
-        }
+		$clientId = $_SESSION['clientData']['clientId'];
 
-        $newReviewOutcome = insertReview($reviewText, $invId, $clientId);
 
-        // Check and report the result
-        if($newCatOutcome === 1){
-            $message = "<div class='errorMessage'>The review has been successfully added.</div>";
+		if(empty($reviewText)){
+			$_SESSION['message'] = '<div class="errorMessage">*** Review Text field cannot be blank. ***</div>';
+			header('location: /acme/products/index.php?action=detail&invId=' . $invId);
+			exit;
+		}
 
-			header('Location: /acme/reviews/');
-            exit;
-        } else {
-            $message = "<div class='errorMessage'>Sorry, but the review was not succesfully added. Please try again.</div>";
-            include '../view/addreview.php';
-            exit;
+		$newReviewOutcome = insertReview($reviewText, $invId, $clientId);
 
-        }
+		// Check and report the result
+		if($newReviewOutcome === 1){
+			$_SESSION['message'] = "<div class='errorMessage'>The review has been successfully added.</div>";
 
-    break;
+			header('location: /acme/products/index.php?action=detail&invId=' . $invId);
+			exit;
+		} else {
+			$_SESSION['message'] = "<div class='errorMessage'>Sorry, but the review was not succesfully added. Please try again.</div>";
+			header('location: /acme/products/index.php?action=detail&invId=' . $invId);
+			exit;
+
+		}
+
+	break;
+
+	case 'editReview':
+          $reviewId = filter_input(INPUT_GET, 'reviewId', FILTER_VALIDATE_INT);
+          $review = getSpecificReview($reviewId);
+
+		include '../view/edit-review.php';
+
+
+	break;
+
+	case 'doReviewEdit':
+
+          $reviewText = filter_input(INPUT_POST, 'reviewText', FILTER_SANITIZE_STRING);
+          $reviewId = filter_input(INPUT_POST, 'reviewId', FILTER_VALIDATE_INT);
+
+
+		if(empty($reviewText)){
+			$_SESSION['message'] = '<div class="errorMessage">*** Review Text field cannot be blank. ***</div>';
+			header('location: /acme/reviews/index.php?action=editReview&reviewId=' . $reviewId);
+			exit;
+		}
+
+		$updateReviewOutcome = updateReview($reviewId, $reviewText);
+
+		// Check and report the result
+		if($updateReviewOutcome === 1){
+			$_SESSION['message'] = "<div class='errorMessage'>The review has been successfully updated.</div>";
+
+			header('location: /acme/accounts/index.php?action=admin');
+			exit;
+		} else {
+			$_SESSION['message'] = "<div class='errorMessage'>Sorry, but the review was not succesfully updated. Please try again.</div>";
+			header('location: /acme/accounts/index.php?action=admin');
+			exit;
+
+		}
+
+	break;
+
+     case 'deleteReview':
+
+          $reviewId = filter_input(INPUT_GET, 'reviewId', FILTER_VALIDATE_INT);
+          $review = getSpecificReview($reviewId);
+
+          include '../view/delete-review.php';
+
+
+     break;
+
+     case 'doReviewDelete':
+
+          $reviewId = filter_input(INPUT_POST, 'reviewId', FILTER_VALIDATE_INT);
+
+          $deleteReviewOutcome = deleteReview($reviewId);
+
+          if($deleteReviewOutcome === 1){
+			$_SESSION['message'] = "<div class='errorMessage'>The review has been successfully deleted.</div>";
+
+			header('location: /acme/accounts/index.php?action=admin');
+			exit;
+		} else {
+			$_SESSION['message'] = "<div class='errorMessage'>Sorry, but the review was not succesfully deleted. Please try again.</div>";
+			header('location: /acme/accounts/index.php?action=admin');
+			exit;
+
+		}
+
+
+
+     break;
+
 
 	default:
-        include '../view/admin.php';
+		include '../view/admin.php';
 
 }
 ?>

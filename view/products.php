@@ -12,15 +12,15 @@ if(isset($_SESSION['message'])) {
 
 <html lang='en'>
 <head>
-    <title>ACME: Your one stop shop for all things Roadrunner-Murdery </title>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/acme/common/head.php'; ?>
+	<title>ACME: Your one stop shop for all things Roadrunner-Murdery </title>
+	<?php include $_SERVER['DOCUMENT_ROOT'] . '/acme/common/head.php'; ?>
 
 </head>
 <body>
-    <header>
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/acme/common/header.php'; ?>
-    </header>
-    <main>
+	<header>
+		<?php include $_SERVER['DOCUMENT_ROOT'] . '/acme/common/header.php'; ?>
+	</header>
+	<main>
 
 		<?php
 			if (isset($message)) {
@@ -28,7 +28,7 @@ if(isset($_SESSION['message'])) {
 			}
 		?>
 
-        <div class='productslink'>
+		<div class='productslink'>
 			<a href='../products/index.php?action=newCat'><h2>Add New Category</h2></a>
 		</div>
 		<div class='productslink'>
@@ -41,10 +41,10 @@ if(isset($_SESSION['message'])) {
 }
 ?>
 		</div>
-    </main>
-    <footer>
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/acme/common/footer.php'; ?>
-    </footer>
+	</main>
+	<footer>
+		<?php include $_SERVER['DOCUMENT_ROOT'] . '/acme/common/footer.php'; ?>
+	</footer>
 </body>
 </html>
 <?php unset($_SESSION['message']); ?>

@@ -8,7 +8,7 @@ function insertCategory($categoryName){
     $db = acmeConnect();
     // The SQL statement
     $sql = 'INSERT INTO categories (categoryName)
-     VALUES (:categoryName)';
+	VALUES (:categoryName)';
     // Create the prepared statement using the acme connection
     $stmt = $db->prepare($sql);
     // The next lines replace the placeholders in the SQL
@@ -16,7 +16,7 @@ function insertCategory($categoryName){
     // and tells the database the type of data it is
 
     $stmt->bindValue(':categoryName', $categoryName, PDO::PARAM_STR);
-    
+
     // Insert the data
     $stmt->execute();
     // Ask how many rows changed as a result of our insert
@@ -33,7 +33,7 @@ function insertProduct($invName, $invDescription, $invImage, $invThumbnail, $inv
     $db = acmeConnect();
     // The SQL statement
     $sql = 'INSERT INTO inventory (invName, invDescription, invImage, invThumbnail, invPrice, invStock, invSize, invWeight, invLocation, categoryId, invVendor, invStyle)
-     VALUES (:invName, :invDescription, :invImage, :invThumbnail, :invPrice, :invStock, :invSize, :invWeight, :invLocation, :categoryId, :invVendor, :invStyle )';
+	VALUES (:invName, :invDescription, :invImage, :invThumbnail, :invPrice, :invStock, :invSize, :invWeight, :invLocation, :categoryId, :invVendor, :invStyle )';
     // Create the prepared statement using the acme connection
     $stmt = $db->prepare($sql);
     // The next lines replace the placeholders in the SQL
@@ -52,7 +52,7 @@ function insertProduct($invName, $invDescription, $invImage, $invThumbnail, $inv
 	$stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_STR);
 	$stmt->bindValue(':invVendor', $invVendor, PDO::PARAM_STR);
 	$stmt->bindValue(':invStyle', $invStyle, PDO::PARAM_STR);
-    
+
     // Insert the data
     $stmt->execute();
     // Ask how many rows changed as a result of our insert
@@ -61,6 +61,18 @@ function insertProduct($invName, $invDescription, $invImage, $invThumbnail, $inv
     $stmt->closeCursor();
     // Return the indication of success (rows changed)
     return $rowsChanged;
+}
+
+function getProductsByCategory($type) {
+	$db = acmeConnect();
+	$sql = 'SELECT * FROM inventory
+		WHERE categoryId IN (SELECT categoryId FROM categories WHERE categoryName = :categoryName)';
+	$stmt = $db->prepare($sql);
+	$stmt->bindValue(':categoryName', $type, PDO::PARAM_STR);
+	$stmt->execute();
+	$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	$stmt->closeCursor();
+	return $products;
 }
 
 function getProductBasics() {

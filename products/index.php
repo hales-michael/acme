@@ -1,4 +1,4 @@
-
+ 
 <?php
 
 // Products Controller
@@ -21,6 +21,8 @@ require_once '../model/products-model.php';
 require_once '../library/functions.php';
 // Get the uploads model
 require_once '../model/uploads-model.php';
+// Get the reviews model
+require_once '../model/reviews-model.php';
 
 // Get the array of categories
 $categories = getCategories();
@@ -32,9 +34,9 @@ $catList = "<select name='categoryId' id='categoryId'>";
 $catList .= "<option disabled selected value>-- Please choose a category --</option>";
 foreach ($categories as $category) {
 	$navList .= "<li><a href='/acme/index.php?action=".urlencode($category['categoryName'])."' title='View our $category[categoryName] product line'>
-        $category[categoryName]</a></li>";
-    $catList .= "<option value=".$category['categoryId'].">".$category['categoryName']."</option>";
-    }
+		$category[categoryName]</a></li>";
+	$catList .= "<option value=".$category['categoryId'].">".$category['categoryName']."</option>";
+	}
 
 $navList .= '</ul>';
 $catList .= '</select>';
@@ -60,35 +62,35 @@ switch ($action){
 
 
 	case 'addcategory':
-        // Filter and store the data
-        $categoryName = filter_input(INPUT_POST, 'categoryName', FILTER_SANITIZE_STRING);
+		// Filter and store the data
+		$categoryName = filter_input(INPUT_POST, 'categoryName', FILTER_SANITIZE_STRING);
 
-        if(empty($categoryName)){
-            $message = '<div class="errorMessage">*** Please enter a new category name. ***</div>';
-            include '../view/addcategory.php';
-            exit;
-        }
+		if(empty($categoryName)){
+			$message = '<div class="errorMessage">*** Please enter a new category name. ***</div>';
+			include '../view/addcategory.php';
+			exit;
+		}
 
-        $newCatOutcome = insertCategory($categoryName);
+		$newCatOutcome = insertCategory($categoryName);
 
-        // Check and report the result
-        if($newCatOutcome === 1){
-            $message = "<div class='errorMessage'>The ".$categoryName." category has been successfully added.</div>";
-        //  include '../view/products.php';
+		// Check and report the result
+		if($newCatOutcome === 1){
+			$message = "<div class='errorMessage'>The ".$categoryName." category has been successfully added.</div>";
+		//  include '../view/products.php';
 			header('Location: /acme/products/');
-            exit;
-        } else {
-            $message = "<div class='errorMessage'>Sorry, but the category was not succesfully added. Please try again.</div>";
-            include '../view/addcategory.php';
-            exit;
-        }
+			exit;
+		} else {
+			$message = "<div class='errorMessage'>Sorry, but the category was not succesfully added. Please try again.</div>";
+			include '../view/addcategory.php';
+			exit;
+		}
 		break;
 
 	case 'addproduct':
 
 	// include '../view/addproduct.php';
 
-	    // Filter and store the data
+		// Filter and store the data
 		$invName = filter_input(INPUT_POST, 'invName', FILTER_SANITIZE_STRING);
 		$invDescription = filter_input(INPUT_POST, 'invDescription', FILTER_SANITIZE_STRING);
 		$invImage = filter_input(INPUT_POST, 'invImage', FILTER_SANITIZE_STRING);
@@ -114,8 +116,8 @@ switch ($action){
 			empty($invSize) || empty($invWeight) || empty($invLocation) || empty($categoryId) || empty($invVendor) || empty($invStyle))  {
 				$message = '<div class="errorMessage">Please complete all fields.</div>';
 				include '../view/addproduct.php';
-        exit;
-        }
+		exit;
+		}
 
 		$addProductOutcome = insertProduct($invName, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invSize,
 			$invWeight, $invLocation, $categoryId, $invVendor, $invStyle);
@@ -146,7 +148,7 @@ switch ($action){
 
 	case 'updateProd':
 
-	    // Filter and store the data
+		// Filter and store the data
 		$invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_NUMBER_INT);
 		$invName = filter_input(INPUT_POST, 'invName', FILTER_SANITIZE_STRING);
 		$invDescription = filter_input(INPUT_POST, 'invDescription', FILTER_SANITIZE_STRING);
@@ -173,8 +175,8 @@ switch ($action){
 			empty($invSize) || empty($invWeight) || empty($invLocation) || empty($categoryId) || empty($invVendor) || empty($invStyle))  {
 				$message = '<div class="errorMessage">Please complete all fields.</div>';
 				include '../view/prod-update.php';
-        exit;
-        }
+		exit;
+		}
 
 		$updateResult = updateProduct($invId, $invName, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invSize,
 			$invWeight, $invLocation, $categoryId, $invVendor, $invStyle);
@@ -205,7 +207,7 @@ switch ($action){
 	break;
 
 	case 'deleteProd':
-		    // Filter and store the data
+			// Filter and store the data
 		$invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_NUMBER_INT);
 		$invName = filter_input(INPUT_POST, 'invName', FILTER_SANITIZE_STRING);
 
@@ -248,15 +250,17 @@ switch ($action){
 
 	case 'detail':
 
-        $item = filter_input(INPUT_GET, 'item', FILTER_SANITIZE_NUMBER_INT);
-	    $prodDetail = getProductInfo($item);
-	    $pd = productDisplay($prodDetail);
-        $thumbInfo = getThumbnailDetails($item);
-        $ti = thumbnailDisplay($thumbInfo);
+		$invId = filter_input(INPUT_GET, 'invId', FILTER_VALIDATE_INT);
+		$prodDetail = getProductInfo($invId);
+		$pd = productDisplay($prodDetail);
+		$thumbInfo = getThumbnailDetails($invId);
+		$ti = thumbnailDisplay($thumbInfo);
 
-        // $rev = getReviewDisplay($item)
+		$prd = productReviewDisplay($invId);
+          $screenName = $_SESSION['screenName'];
+          $rf = buildNewReviewForm($screenName, $invId);
 
-	    include '../view/prod-detail.php';
+		include '../view/prod-detail.php';
 
 	break;
 
@@ -274,7 +278,7 @@ switch ($action){
 				$prodList .= "<tr><td>$product[invName]</td>";
 				$prodList .= "<td><a href='/acme/products?action=mod&id=$product[invId]' title='Click to modify'>Modify</a></td>";
 				$prodList .= "<td><a href='/acme/products?action=del&id=$product[invId]' title='Click to delete'>Delete</a></td>
-                    </tr>";
+					</tr>";
 			}
 			$prodList .= '</tbody></table>';
 		} else {

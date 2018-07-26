@@ -2,7 +2,7 @@
 // Accounts Controller
 
  // Create or access a Session
-     if(!isset($_SESSION)) {
+	 if(!isset($_SESSION)) {
 		session_start();
 	}
 
@@ -15,6 +15,8 @@
  require_once '../model/accounts-model.php';
  // Get functions
  require_once '../library/functions.php';
+ // Get the reviews model
+ require_once '../model/reviews-model.php';
 
  // Get the array of categories
 	$categories = getCategories();
@@ -36,53 +38,53 @@ $action = filter_input(INPUT_POST, 'action');
 
  case 'registration':
 	include '../view/registration.php';
-     break;
+	 break;
 
  case 'register':
 
-     // Filter and store the data
-     $clientFirstname = filter_input(INPUT_POST, 'clientFirstname', FILTER_SANITIZE_STRING);
-     $clientLastname = filter_input(INPUT_POST, 'clientLastname', FILTER_SANITIZE_STRING);
-     $clientEmail = filter_input(INPUT_POST, 'clientEmail', FILTER_SANITIZE_EMAIL);
-     $clientPassword = filter_input(INPUT_POST, 'clientPassword', FILTER_SANITIZE_STRING);
+	 // Filter and store the data
+	 $clientFirstname = filter_input(INPUT_POST, 'clientFirstname', FILTER_SANITIZE_STRING);
+	 $clientLastname = filter_input(INPUT_POST, 'clientLastname', FILTER_SANITIZE_STRING);
+	 $clientEmail = filter_input(INPUT_POST, 'clientEmail', FILTER_SANITIZE_EMAIL);
+	 $clientPassword = filter_input(INPUT_POST, 'clientPassword', FILTER_SANITIZE_STRING);
 	 $clientEmail = checkEmail($clientEmail);
 	 $checkPassword = checkPassword($clientPassword);
 
 	 //  Existing Email Check
 	 $existingEmail = checkExistingEmail($clientEmail);
 	 if($existingEmail) {
-	 	 // $message
+		 // $message
 		 $_SESSION['message'] = '<div class="errorMessage">Email address already exists. Please login.</div>';
 		 include '../view/login.php';
 		 exit;
 	 }
 
-     if(empty($clientFirstname) || empty($clientLastname) || empty($clientEmail) || empty($checkPassword)){
-         // $message
+	 if(empty($clientFirstname) || empty($clientLastname) || empty($clientEmail) || empty($checkPassword)){
+		 // $message
 		 $_SESSION['message'] = '<div class="errorMessage">Please provide information for all empty form fields.</div>';
-         include '../view/registration.php';
-         exit;
-     }
+		 include '../view/registration.php';
+		 exit;
+	 }
 
 	 $hashedPassword = password_hash($clientPassword, PASSWORD_DEFAULT);
 
-     $regOutcome = regClient($clientFirstname, $clientLastname, $clientEmail, $hashedPassword);
+	 $regOutcome = regClient($clientFirstname, $clientLastname, $clientEmail, $hashedPassword);
 
-     // Check and report the result
-     if($regOutcome === 1) {
+	 // Check and report the result
+	 if($regOutcome === 1) {
 		 setcookie('firstname', $clientFirstname, strtotime('+1 year'), '/');
-         $_SESSION['message'] = "Thanks for registering $clientFirstname. Please use your email and password to login.";
+		 $_SESSION['message'] = "Thanks for registering $clientFirstname. Please use your email and password to login.";
 
-         header('Location: /acme/accounts/?action=login');
-         exit;
-     } else {
-         // $message =
+		 header('Location: /acme/accounts/?action=login');
+		 exit;
+	 } else {
+		 // $message =
 		 $_SESSION['message'] = "<div>Sorry $clientFirstname, but the registration failed. Please try again.</div>";
-         include '../view/registration.php';
-         exit;
-     }
+		 include '../view/registration.php';
+		 exit;
+	 }
 
-     break;
+	 break;
 
 case 'doLogin':
 
@@ -125,17 +127,27 @@ case 'doLogin':
 	$_SESSION['clientData'] = $clientData;
 
 
-    // Set Cookies
-    $screenName = substr($SESSION['clientData']['clientFirstName'], 0, 1) . $SESSION['clientData']['clientLastName'];
-	setcookie('firstname', $_SESSION['clientData']['clientFirstname'], strtotime('+1 year'), '/');
-    setcookie('screenName', $screenName, strtotime('+1 year'), '/');
 
+
+	// Delete firstname cookie
+	setcookie('firstname', '', time() - 3600);
+
+	// Set Screen Name
+	$screenName = substr($_SESSION['clientData']['clientFirstname'], 0, 1) . $_SESSION['clientData']['clientLastname'];
+	$_SESSION['screenName'] = $screenName;
+
+	$clientId = $_SESSION['clientData']['clientId'];
+	$rv = buildAdminReviewDisplay($clientId);
 
 	include '../view/admin.php';
 	exit;
 	break;
 
 	case 'admin' :
+
+	   $clientId = $_SESSION['clientData']['clientId'];
+
+	   $rv = buildAdminReviewDisplay($clientId);
 
 		include '../view/admin.php';
 		break;
@@ -167,7 +179,7 @@ case 'doLogin':
 				//  Existing Email Check
 				$existingEmail = checkExistingEmail($clientEmail);
 				if($existingEmail) {
-		 			// $message
+					// $message
 					$_SESSION['message'] = '<div class="errorMessage">Email address already exists. Please try again.</div>';
 					include '../view/client-update.php';
 					exit;
@@ -185,7 +197,7 @@ case 'doLogin':
 		// Check and report the result
 		if($updateOutcome === 1) {
 
-		    $_SESSION['message'] = "Your account has been successfully updated.";
+			$_SESSION['message'] = "Your account has been successfully updated.";
 
 			$clientData = getClientData($clientId);
 
@@ -201,14 +213,14 @@ case 'doLogin':
 			exit;
 
 			include '../view/admin.php';
-		    exit;
+			exit;
 
 		 } else {
-		     // $message =
+			 // $message =
 			 $_SESSION['message'] = "<div>Sorry $clientFirstname, but the Account update failed. Please try again.</div>";
-		     include '../view/client-update.php';
-		     exit;
-     }
+			 include '../view/client-update.php';
+			 exit;
+	 }
 
 	break;
 
@@ -228,23 +240,23 @@ case 'doLogin':
 
 	 $hashedPassword = password_hash($clientPassword, PASSWORD_DEFAULT);
 
-     $passwordChangeOutcome = updatePassword($hashedPassword, $clientId);
+	 $passwordChangeOutcome = updatePassword($hashedPassword, $clientId);
 
-     // Check and report the result
-     if($passwordChangeOutcome === 1) {
+	 // Check and report the result
+	 if($passwordChangeOutcome === 1) {
 
-         $_SESSION['message'] = "Your password has been successfully changed.";
+		 $_SESSION['message'] = "Your password has been successfully changed.";
 
-         header('Location: /acme/accounts/?action=admin');
-         exit;
-     } else {
-         // $message =
+		 header('Location: /acme/accounts/?action=admin');
+		 exit;
+	 } else {
+		 // $message =
 		 $_SESSION['message'] = "<div>Sorry, the password was not successfully changed</div>";
-         include '../view/client-update.php';
-         exit;
-     }
+		 include '../view/client-update.php';
+		 exit;
+	 }
 
-     break;
+	 break;
 
 
  default:

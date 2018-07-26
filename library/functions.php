@@ -28,24 +28,12 @@ function checkPrice ($invPrice) {
 	return preg_match ($pattern, $invPrice);
 }
 
-function getProductsByCategory($type) {
-	$db = acmeConnect();
-	$sql = 'SELECT * FROM inventory
-		WHERE categoryId IN (SELECT categoryId FROM categories WHERE categoryName = :categoryName)';
-	$stmt = $db->prepare($sql);
-	$stmt->bindValue(':categoryName', $type, PDO::PARAM_STR);
-	$stmt->execute();
-	$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	$stmt->closeCursor();
-	return $products;
-}
-
 function buildProductsDisplay($products){
 	$pd = '<ul id="prod-display">';
 	foreach ($products as $product) {
 		$pd .= '<li>';
-		$pd .= "<a href='/acme/products/index.php?action=detail&item=$product[invId]'><img src='$product[invThumbnail]' alt='Image of $product[invName] on
-            Acme.com'>";
+		$pd .= "<a href='/acme/products/index.php?action=detail&invId=$product[invId]'><img src='$product[invThumbnail]' alt='Image of $product[invName] on
+			Acme.com'>";
 		$pd .= '<hr>';
 		$pd .= "<h2>$product[invName]</h2>";
 		$pd .= "<span>$product[invPrice]</span></a>";
@@ -84,13 +72,13 @@ return $pd;
 
 function thumbnailDisplay($thumbInfo) {
 
-    $ti =  "<div class='thumbwrapper' >";
-    foreach ($thumbInfo as $thumb) {
-        $ti .= "<img src='$thumb[imgPath]' alt='Thumbnail of $thumb[imgName]' class='imageThumb' />";
-    }
+	$ti =  "<div class='thumbwrapper' >";
+	foreach ($thumbInfo as $thumb) {
+		$ti .= "<img src='$thumb[imgPath]' alt='Thumbnail of $thumb[imgName]' class='imageThumb' />";
+	}
 
-    $ti .= "</div>";
-    return $ti;
+	$ti .= "</div>";
+	return $ti;
 }
 
 
@@ -253,23 +241,74 @@ function resizeImage($old_image_path, $new_image_path, $max_width, $max_height) 
 
 function buildAdminReviewDisplay($clientId) {
 
-    $reviewArray = getClientReviews($clientId);
-    // $prodInfo = getProductInfo($reviewArray[$invId]);
+	$reviewArray = getReviewsByClientId($clientId);
 
-    $rv = '<h3>Manage Your Product Reviews</h3>';
-    $rv .= '<ul id="admin-reviews">';
-    foreach ($reviewArray as $review) {
-        $invId = getReviewInvId();
-        $prodInfo = getProductInfo($review[$invId]);
-        // $id .= '<li>';
-        // $id .= "<p class='product-reviewed'>";
-        // $id .= "<p><a href='/acme/uploads?action=delete&imgId=$image[imgId]&filename=$image[imgName]' title='Delete the image'>Delete $image[imgName]</a></p>";
-        // $id .= '</li>';
+
+
+    if (is_array($reviewArray)) {
+	   if(count($reviewArray)<1){
+		  $rv =  "Sorry, you have not submitted any reviews.";
+	   } else {
+		  $rv = '<div id="admin-reviews">';
+            $rv .= '<table><thead><h3>Manage Your Product Reviews</h3></thead><tbody>';
+		  foreach ($reviewArray as $review) {
+                $rv .= "<tr><td><p>";
+                $rv .= "<span class='reviewText'>";
+			 $rv .= $review['reviewText'];
+			 $rv .= '</span></p></td><td>(Reviewed on ';
+			 $rv .= $review['reviewDate'];
+			 $rv .= "):</td><td><a href=/acme/reviews?action=editReview&reviewId=$review[reviewId] title='Edit Review'>Edit |</a> </td><td>
+			<a href=/acme/reviews?action=deleteReview&reviewId=$review[reviewId] title='Delete Review'>Delete </a>";
+			 $rv .= '</td></tr>';
+		  }
+            $rv .= "</tbody></table>";
+		  $rv .= '</div>';
+	   }
+    } else {
+	   $rv = 'not an array';
     }
-    
+    return $rv;
 }
 
 
+function productReviewDisplay($invId) {
 
+    $reviewArray = getReviewsByItem($invId);
+
+    $prd = '<h2>Customer Reviews</h2>';
+
+    if(count($reviewArray)<1){
+	  $prd  .=  "Sorry, There are no reviews for this product.";
+    } else {
+	  $prd .= '<table>';
+	  $prd .= '<thead>';
+	  //$prd .= '<tr><th>Product Reviews</th><td>&nbsp;</td><td>&nbsp;</td></tr>';
+	  $prd .= '</thead>';
+	  $prd .= '<tbody>';
+	  foreach ($reviewArray as $review) {
+		$prd .= "<tr><td><p><span>$_SESSION[screenName]</span> wrote on $review[reviewDate]:</td>";
+		$prd .= "<td>$review[reviewText]</td>";
+	  }
+	  $prd .= '</tbody></table>';
+	  }
+    return $prd;
+    }
+
+function buildNewReviewForm($screenName, $invId) {
+
+     $rf = "<form action='/acme/reviews/index.php' method='post'><div class='row'><div class='col-25'><label for='screenName'>Screen Name</label></div>
+          <div class='col-75'><input type='text' id='screenName' name='screenName' readonly ";
+     if(isset($screenName)) { $rf .= "value ='$screenName'";}
+     $rf .= "/> </div></div>";
+     $rf .= "<div class='row'><div class='col-25'><label for='reviewText'>Review Text</label></div>
+          <div class='col-75'><input type='text' id='reviewText' name='reviewText' required /> </div></div>";
+     $rf .= "<div class = 'row'><input type='submit' name='submit' value='submit' />";
+     $rf .= "<input type='hidden' name='action' value='addNewReview' />";
+     $rf .= "<input type='hidden' name='invId' value=$invId /></div>";
+     $rf .= "<?php echo $invId; ?>";
+     $rf .= "</form>";
+
+     return $rf;
+}
 
 ?>

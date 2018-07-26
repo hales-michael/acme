@@ -7,18 +7,18 @@ if(!$_SESSION['loggedin']){
 <!DOCTYPE html>
 <html lang='en'>
 <head>
-      <title>ACME: Your one stop shop for all things Roadrunner-Murdery </title>
-      <?php include $_SERVER['DOCUMENT_ROOT'] . '/acme/common/head.php'; ?>
+	  <title>ACME: Your one stop shop for all things Roadrunner-Murdery </title>
+	  <?php include $_SERVER['DOCUMENT_ROOT'] . '/acme/common/head.php'; ?>
 	  
 </head>
-    <body>
-        <header>
-            <?php include $_SERVER['DOCUMENT_ROOT'] . '/acme/common/header.php'; ?>
-        </header>
+	<body>
+		<header>
+			<?php include $_SERVER['DOCUMENT_ROOT'] . '/acme/common/header.php'; ?>
+		</header>
 
-        <main>
+		<main>
 		<div class="mainwrapper">
-            <h1>
+			<h1>
 				<?php // echo var_dump($_SESSION);
 				echo $_SESSION['clientData']['clientFirstname'] . ' ' . $_SESSION['clientData']['clientLastname'];	?>
 			</h1>
@@ -27,7 +27,9 @@ if(!$_SESSION['loggedin']){
 					echo $_SESSION['message'];
 				} else {
 					echo '<p>You are logged in.</p>';
-				} ?>
+				}
+                    unset($_SESSION['message']); 
+               ?>
 			<div class="userdata">
 				<ul>
 						<?php if($_SESSION['clientData']['clientLevel'] == 3) {
@@ -56,13 +58,17 @@ if(!$_SESSION['loggedin']){
 						</div>";
 				}
 
-                echo $rv;
+				echo $rv;
 
-				?>
+
+	
+				
+
+			?>
 		</div>
-        </main>
-        <footer>
-            <?php include $_SERVER['DOCUMENT_ROOT'] . '/acme/common/footer.php'; ?>
-        </footer>
-    </body>
+		</main>
+		<footer>
+			<?php include $_SERVER['DOCUMENT_ROOT'] . '/acme/common/footer.php'; ?>
+		</footer>
+	</body>
 </html>
