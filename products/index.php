@@ -253,11 +253,18 @@ switch ($action){
 		$invId = filter_input(INPUT_GET, 'invId', FILTER_VALIDATE_INT);
 		$prodDetail = getProductInfo($invId);
 		$pd = productDisplay($prodDetail);
+
+
 		$thumbInfo = getThumbnailDetails($invId);
 		$ti = thumbnailDisplay($thumbInfo);
 
 		$prd = productReviewDisplay($invId);
-          $screenName = $_SESSION['screenName'];
+
+          if(!empty($_SESSION)){
+               $screenName = $_SESSION['screenName'];
+          } else {
+               $screenName = NULL;
+          }
           $rf = buildNewReviewForm($screenName, $invId);
 
 		include '../view/prod-detail.php';

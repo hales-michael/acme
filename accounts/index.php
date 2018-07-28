@@ -130,7 +130,7 @@ case 'doLogin':
 
 
 	// Delete firstname cookie
-	setcookie('firstname', '', time() - 3600);
+	setcookie('firstname', '', strtotime('-1 year'), '/');
 
 	// Set Screen Name
 	$screenName = substr($_SESSION['clientData']['clientFirstname'], 0, 1) . $_SESSION['clientData']['clientLastname'];

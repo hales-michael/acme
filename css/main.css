@@ -1,3 +1,4 @@
+
 html{
  box-sizing: border-box;
 }
@@ -181,7 +182,7 @@ nav a:hover {
 }
 
 footer {
-        border-style: solid none none;
+	   border-style: solid none none;
 }
 
 footer p {
@@ -241,7 +242,7 @@ input[type=submit] {
 }
 
     input[type=submit]:hover {
-        background-color: #990033;
+	   background-color: #990033;
     }
 
 .container {
@@ -272,8 +273,8 @@ input[type=submit] {
 }
 
 .adminfunctions {
-	padding: 20px;
-	margin: 5px 15px;
+	/*padding: 20px;*/
+	margin: 15px 15px;
 }
 
 .col-30 {
@@ -303,11 +304,17 @@ input[type=submit] {
 	border-radius: 5px;
 
 }
-
+.userdata {
+     padding: 15px 0;
+}
 .userdata ul {
     list-style-type: none;
 	padding: 0;
 	margin: 0;
+}
+
+.userdata div {
+     padding: 5px 0 0;
 }
 
 .productslink {
@@ -397,93 +404,127 @@ input[type=submit] {
 .uploadwrapper {
     padding: 10px;
 }
-/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-    .col-25, .col-75 {
-        width: 100%;
-        margin-top: 0;
-    }
-    input[type=submit] {
-        width: 100%;
-    }
 
-	.col-30, .col-60 {
-		width: 100%;
-	}
-
-	.col-25 {
-		text-align: center;
-		margin-top: 10px;
-	}
+.productReviewWrapper {
+     padding: 10px;
+     margin: 0 10px 15px;
+     /*border: 3px solid black;
+     box-shadow: 5px 3px #888888;
+     border-radius: 5px;*/
 }
 
-/* Media Queries */
+hr {
+     border-style: double;
 
+}
+.productReviewWrapper h2 {
+     font-size: 2em;
+}
 
-@media screen and (max-width: 944px) {
-    .recipes h3, .reviews h3 {
-        display: block;
-        clear: both;
-        height: 10%;
-    }
-     
-    .contentwrapper h3 {
-        display: block;
-    }
-    
-    .recipes {
-        clear: both;
-    }
-    
-    .contentwrapper {
-        flex-direction: column;
-    }
-    
-    /*.rocket img {
-        width: 50%;
-        height: auto;
-        text-align: left;
+.productReviewMessage {
+     padding: 20px 0;
+}
+
+.reviewHead{
+     font-size: 1.5em;
+     font-weight: bold;
+}
+     /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+     @media screen and (max-width: 600px) {
+          .col-25, .col-75 {
+               width: 100%;
+               margin-top: 0;
+          }
+
+          input[type=submit] {
+               width: 100%;
+          }
+
+          .col-30, .col-60 {
+               width: 100%;
+          }
+
+          .col-25 {
+               text-align: center;
+               margin-top: 10px;
+          }
+
+          .detailwrapper img {
+               width: 200px;
+               height: 200px;
+          }
+     }
+     /* Media Queries */
+     @media screen and (max-width: 944px) {
+          .recipes h3, .reviews h3 {
+               display: block;
+               clear: both;
+               height: 10%;
+          }
+
+          .contentwrapper h3 {
+               display: block;
+          }
+
+          .recipes {
+               clear: both;
+          }
+
+          .contentwrapper {
+               flex-direction: column;
+          }
+
+          /*.rocket img {
+	   width: 50%;
+	   height: auto;
+	   text-align: left;
     }*/
-}
+     }
 
-@media screen and (max-width: 620px) {
-	#rocketfeature {
-		z-index: 0;
-	}
+     @media screen and (max-width: 620px) {
+          #rocketfeature {
+               z-index: 0;
+          }
 
-	nav a {
-		font-size: 0.8em;
-	}
+          nav a {
+               font-size: 0.8em;
+          }
 
-    .rocket ul {
-        font-size: 0.8rem;
-    }
-    .rocket ul img {
-        width: 50%;
-    }
+          .rocket ul {
+               font-size: 0.8rem;
+          }
 
-}
+               .rocket ul img {
+                    width: 50%;
+               }
+     }
 
-@media screen and (min-width: 768px) {
+     @media screen and (min-width: 768px) {
 
-	#prod-display {
-		 flex-flow: row wrap;
-		 justify-content: flex-start;
-	}
+          #prod-display {
+               flex-flow: row wrap;
+               justify-content: flex-start;
+          }
 
-	#prod-display li {
-		 max-width: 200px;
-		 flex: 1 0 auto;
-		 text-align: center;
-		 max-height: 400px; 
-	}
-}
+               #prod-display li {
+                    max-width: 200px;
+                    flex: 1 0 auto;
+                    text-align: center;
+                    max-height: 400px;
+               }
+     }
 
-@media screen and (max-width: 768px) {
+     @media screen and (max-width: 768px) {
 
-	.detailwrapper {
-		display: flex;
-		flex-flow: column wrap;
-	}
+          .detailwrapper {
+               display: flex;
+               flex-flow: column wrap;
+          }
+     }
 
-}
+     @media screen and (max-width: 350px) {
+
+          nav a {
+               font-size: 0.4em;
+          }
+     }

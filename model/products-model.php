@@ -111,7 +111,7 @@ function updateProduct($invId, $invName, $invDescription, $invImage, $invThumbna
     // and tells the database the type of data it is
 
 	$stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
-    $stmt->bindValue(':invName', $invName, PDO::PARAM_STR);
+     $stmt->bindValue(':invName', $invName, PDO::PARAM_STR);
 	$stmt->bindValue(':invDescription', $invDescription, PDO::PARAM_STR);
 	$stmt->bindValue(':invImage', $invImage, PDO::PARAM_STR);
 	$stmt->bindValue(':invThumbnail', $invThumbnail, PDO::PARAM_STR);

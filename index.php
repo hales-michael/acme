@@ -26,10 +26,10 @@ $action = filter_input(INPUT_POST, 'action');
 // Build a navigation bar using the $categories array
  $navList = buildNav($categories);
 
-  //Check for firstname cookie
-if(isset($_COOKIE['firstname'])){
- $cookieFirstname = filter_input(INPUT_COOKIE, 'firstname', FILTER_SANITIZE_STRING);
-}
+//  //Check for firstname cookie
+//if(isset($_COOKIE['firstname'])){
+// $cookieFirstname = filter_input(INPUT_COOKIE, 'firstname', FILTER_SANITIZE_STRING);
+//}
 
  switch ($action){
 

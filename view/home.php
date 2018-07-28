@@ -14,7 +14,7 @@
                 if (isset($message)) {
                     echo $message;
                 }
-             ?>
+               ?>
             <h1>Welcome to Acme!</h1>
             <div class="rocket">
             <img id="rocketfeature" src="/acme/images/site/rocketfeature.jpg" alt="Rocket Feature."/>
@@ -23,7 +23,10 @@
                     <li>Quick lighting fuse</li>
                     <li>NHTSA approved seat belts</li>
                     <li>Mobile launch stand included</li>
-                    <li><a href="#"><img id="actionbtn" alt="Add to cart button" src="/acme/images/site/iwantit.gif"></a></li>
+                    <li>
+                         <a href="/acme/products/index.php?action=detail&invId=1">
+                              <img id="actionbtn" alt="Add to cart button" src="/acme/images/site/iwantit.gif" />
+                         </a></li>
 				</ul>
             </div>
             <div class="contentwrapper">

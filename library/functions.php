@@ -70,15 +70,15 @@ function productDisplay($prodDetail) {
 return $pd;
 }
 
-function thumbnailDisplay($thumbInfo) {
+function thumbnailDisplay($thumbArray) {
 
-	$ti =  "<div class='thumbwrapper' >";
-	foreach ($thumbInfo as $thumb) {
-		$ti .= "<img src='$thumb[imgPath]' alt='Thumbnail of $thumb[imgName]' class='imageThumb' />";
+	$td =  "<div class='thumbwrapper' >";
+	foreach ($thumbArray as $thumb) {
+		$td .= "<img src='$thumb[imgPath]' alt='Thumbnail of $thumb[imgName]' class='imageThumb' />";
 	}
 
-	$ti .= "</div>";
-	return $ti;
+	$td .= "</div>";
+	return $td;
 }
 
 
@@ -250,15 +250,16 @@ function buildAdminReviewDisplay($clientId) {
 		  $rv =  "Sorry, you have not submitted any reviews.";
 	   } else {
 		  $rv = '<div id="admin-reviews">';
-            $rv .= '<table><thead><h3>Manage Your Product Reviews</h3></thead><tbody>';
+            $rv .= '<div class=reviewHead>Manage Your Product Reviews</div>';
+            $rv .= "<table><tbody>";
 		  foreach ($reviewArray as $review) {
                 $rv .= "<tr><td><p>";
                 $rv .= "<span class='reviewText'>";
 			 $rv .= $review['reviewText'];
 			 $rv .= '</span></p></td><td>(Reviewed on ';
-			 $rv .= $review['reviewDate'];
-			 $rv .= "):</td><td><a href=/acme/reviews?action=editReview&reviewId=$review[reviewId] title='Edit Review'>Edit |</a> </td><td>
-			<a href=/acme/reviews?action=deleteReview&reviewId=$review[reviewId] title='Delete Review'>Delete </a>";
+			 $rv .= date("M d \, Y", strtotime($review['reviewDate']));
+			 $rv .= "):</td><td><a href='/acme/reviews?action=editReview&reviewId=$review[reviewId]' title='Edit Review'>Edit |</a> </td><td>
+			<a href='/acme/reviews?action=deleteReview&reviewId=$review[reviewId]' title='Delete Review'>Delete </a>";
 			 $rv .= '</td></tr>';
 		  }
             $rv .= "</tbody></table>";
@@ -275,10 +276,10 @@ function productReviewDisplay($invId) {
 
     $reviewArray = getReviewsByItem($invId);
 
-    $prd = '<h2>Customer Reviews</h2>';
+    $prd = "<div class='productReviewWrapper'><h2>Customer Reviews</h2>";
 
     if(count($reviewArray)<1){
-	  $prd  .=  "Sorry, There are no reviews for this product.";
+	  $prd  .=  "<div class='productReviewMessage'>Sorry, There are no reviews for this product.</div>";
     } else {
 	  $prd .= '<table>';
 	  $prd .= '<thead>';
@@ -286,7 +287,8 @@ function productReviewDisplay($invId) {
 	  $prd .= '</thead>';
 	  $prd .= '<tbody>';
 	  foreach ($reviewArray as $review) {
-		$prd .= "<tr><td><p><span>$_SESSION[screenName]</span> wrote on $review[reviewDate]:</td>";
+          $screenName = substr($review['clientFirstname'], 0, 1) . $review['clientLastname'];
+		$prd .= "<tr><td><p><span>$screenName</span> wrote on ". date("M d \, Y", strtotime($review['reviewDate'])). ":</td>";
 		$prd .= "<td>$review[reviewText]</td>";
 	  }
 	  $prd .= '</tbody></table>';
@@ -296,18 +298,20 @@ function productReviewDisplay($invId) {
 
 function buildNewReviewForm($screenName, $invId) {
 
-     $rf = "<form action='/acme/reviews/index.php' method='post'><div class='row'><div class='col-25'><label for='screenName'>Screen Name</label></div>
+     if(empty($screenName)) {
+          $rf = "<h4>You must be logged in to write a review. <a href='/acme/accounts/index.php?action=login'>Click here</a> to login.</h4>";
+     } else {
+          $rf = "<div class='container'><form action='/acme/reviews/index.php' method='post'><div class='row'><div class='col-25'><label for='screenName'>Screen Name</label></div>
           <div class='col-75'><input type='text' id='screenName' name='screenName' readonly ";
-     if(isset($screenName)) { $rf .= "value ='$screenName'";}
-     $rf .= "/> </div></div>";
-     $rf .= "<div class='row'><div class='col-25'><label for='reviewText'>Review Text</label></div>
+          if(isset($screenName)) { $rf .= "value ='$screenName'";}
+          $rf .= "/> </div></div>";
+          $rf .= "<div class='row'><div class='col-25'><label for='reviewText'>Review Text</label></div>
           <div class='col-75'><input type='text' id='reviewText' name='reviewText' required /> </div></div>";
-     $rf .= "<div class = 'row'><input type='submit' name='submit' value='submit' />";
-     $rf .= "<input type='hidden' name='action' value='addNewReview' />";
-     $rf .= "<input type='hidden' name='invId' value=$invId /></div>";
-     $rf .= "<?php echo $invId; ?>";
-     $rf .= "</form>";
-
+          $rf .= "<div class = 'row'><input type='submit' name='submit' value='submit' />";
+          $rf .= "<input type='hidden' name='action' value='addNewReview' />";
+          $rf .= "<input type='hidden' name='invId' value=$invId /></div>";
+          $rf .= "</form></div></div>";
+     }
      return $rf;
 }
 

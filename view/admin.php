@@ -1,8 +1,10 @@
-<?php /*
-if(!$_SESSION['loggedin']){
-//echo $SESSION['loggedin'];
-	include '../index.php';
-}*/
+<?php 
+if(!empty($_SESSION)) {
+     if(!$_SESSION['loggedin']){
+          header('Location: /acme');
+} } else {
+          header('Location: /acme');
+}
 ?>
 <!DOCTYPE html>
 <html lang='en'>
@@ -18,10 +20,7 @@ if(!$_SESSION['loggedin']){
 
 		<main>
 		<div class="mainwrapper">
-			<h1>
-				<?php // echo var_dump($_SESSION);
-				echo $_SESSION['clientData']['clientFirstname'] . ' ' . $_SESSION['clientData']['clientLastname'];	?>
-			</h1>
+
 			<?php
 				if(isset($_SESSION['message'])) {
 					echo $_SESSION['message'];
@@ -29,27 +28,37 @@ if(!$_SESSION['loggedin']){
 					echo '<p>You are logged in.</p>';
 				}
                     unset($_SESSION['message']); 
+				
+				echo "<h1>" . $_SESSION['clientData']['clientFirstname'] . ' ' . $_SESSION['clientData']['clientLastname'] . "</h1>";
+
                ?>
-			<div class="userdata">
-				<ul>
-						<?php if($_SESSION['clientData']['clientLevel'] == 3) {
+               <hr />
+               <div class="userdata">
+                    <ul>
+                         <?php if($_SESSION['clientData']['clientLevel'] == 3) {
 							$accessLevel = 'Admin';
 						} elseif ($_SESSION['clientData']['clientLevel'] == 2) {
-							$accessLevel = 'Super secret permission level';			
+							$accessLevel = 'Super secret permission level';
 						} else {
 							$accessLevel = 'Basic'; } ?>
 
-						<li><?php echo "First Name: " . $_SESSION['clientData']['clientFirstname']; ?></li>
-						<li><?php echo "Last Name: " . $_SESSION['clientData']['clientLastname']; ?></li>
-						<li><?php echo "Email Address: " . $_SESSION['clientData']['clientEmail']; ?></li>
-<!--						<li><?php echo "Access Level: $accessLevel" ?></li> -->
-					</ul>
+                         <li>
+                              <?php echo "First Name: " . $_SESSION['clientData']['clientFirstname']; ?>
+                         </li>
+                         <li>
+                              <?php echo "Last Name: " . $_SESSION['clientData']['clientLastname']; ?>
+                         </li>
+                         <li>
+                              <?php echo "Email Address: " . $_SESSION['clientData']['clientEmail']; ?>
+                         </li>
+                         <!--						<li><?php echo "Access Level: $accessLevel" ?></li> -->
+                    </ul>
 
-				</div>
-				<div>
-					<a href='../accounts/index.php?action=clientUpdate'>Update Account Information</a>
-				</div>
-
+                    <div>
+                         <a href='../accounts/index.php?action=clientUpdate'>Update Account Information</a>
+                    </div>
+               </div>
+               <hr />
 			<?php
 				if($_SESSION['clientData']['clientLevel'] > 1) {
 					echo "<div class='adminfunctions'>
@@ -57,7 +66,7 @@ if(!$_SESSION['loggedin']){
 							<a href='../products/'>Product Management Page</a>
 						</div>";
 				}
-
+                    echo "<hr />";
 				echo $rv;
 
 
