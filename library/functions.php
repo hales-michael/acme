@@ -279,7 +279,7 @@ function productReviewDisplay($invId) {
     $prd = "<div class='productReviewWrapper'><h2>Customer Reviews</h2>";
 
     if(count($reviewArray)<1){
-	  $prd  .=  "<div class='productReviewMessage'>Sorry, There are no reviews for this product.</div>";
+	  $prd  .=  "<div class='productReviewMessage'>Sorry, There are no reviews for this product.</div></div>";
     } else {
 	  $prd .= '<table>';
 	  $prd .= '<thead>';
@@ -291,7 +291,7 @@ function productReviewDisplay($invId) {
 		$prd .= "<tr><td><p><span>$screenName</span> wrote on ". date("M d \, Y", strtotime($review['reviewDate'])). ":</td>";
 		$prd .= "<td>$review[reviewText]</td>";
 	  }
-	  $prd .= '</tbody></table>';
+	  $prd .= '</tbody></table></div>';
 	  }
     return $prd;
     }
@@ -299,7 +299,7 @@ function productReviewDisplay($invId) {
 function buildNewReviewForm($screenName, $invId) {
 
      if(empty($screenName)) {
-          $rf = "<h4>You must be logged in to write a review. <a href='/acme/accounts/index.php?action=login'>Click here</a> to login.</h4>";
+          $rf = "<div class='loginMessage'><h4>You must be logged in to write a review. <a href='/acme/accounts/index.php?action=login'>Click here</a> to login.</h4></div>";
      } else {
           $rf = "<div class='container'><form action='/acme/reviews/index.php' method='post'><div class='row'><div class='col-25'><label for='screenName'>Screen Name</label></div>
           <div class='col-75'><input type='text' id='screenName' name='screenName' readonly ";
